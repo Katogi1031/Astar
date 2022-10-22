@@ -20,22 +20,28 @@ struct point
 
 
 
-void astar(int maze[8][8], int *start, int *end, int len){
-    printf("%d", len);
-    //Node start_node = {'\0', *start, 0, 0, 0};
-    //int len = sizeof(start) / sizeof(int);
+void astar(int maze[8][8], int *start, int *end){
 
+    /* スタートノードの作成・初期化 */
     struct point* sP = (struct point*)malloc(sizeof(struct point));
     sP->x = start[0],sP->y = start[1];
     struct node* startNode = (struct node*)malloc(sizeof(struct node));
     startNode->pnt = sP,startNode->parentNode = NULL,startNode->g=startNode->h=startNode->f=0;
 
-    //create GOAL_NODE=>gP and set the data...
+    /* エンドノードの作成・初期化 */
     struct point* gP = (struct point*)malloc(sizeof(struct point));
     gP->x = end[0],gP->y = end[1];
     struct node* goalNode = (struct node*)malloc(sizeof(struct node));
     goalNode->pnt = gP,goalNode->parentNode = NULL,goalNode->g=goalNode->h=goalNode->f=0;
     
+
+    /* オープンリストの作成 */
+    struct node **openList = (struct node**)malloc(sizeof(struct node*));
+    *openList = NULL
+    /* クローズリストの作成 */
+    struct node **closedList = (struct node**)malloc(sizeof(struct node*));
+    *closedList = NULL
+    printf("%d %d\n", goalNode->pnt->x, goalNode->pnt->y);
     
   /*
   while sizeof(open_list) / sizeof(int) > 0{
@@ -61,7 +67,7 @@ int main(void){
   int len = sizeof(start) / sizeof(int);
   //printf("%d\n", len);
   
-  astar(maze, start, end, len);
+  astar(maze, start, end);
 
   //printf("%d, %d\n", start[0], start[1]);
 
