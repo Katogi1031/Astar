@@ -3,18 +3,19 @@
 #include<stdlib.h>
 #include<string.h>
 
-typedef struct{
-    struct node* parentNode;
-    struct point* pnt;
-    int g;
-    int h;
-    int f;
-} node;
-
-typedef struct{
-    int x;
-    int y;
-} point;
+struct node
+{
+  struct point* pnt;
+  struct node* parentNode;
+  int g;
+  int h;
+  int f;
+};
+struct point
+{
+  int x;
+  int y;     
+};
 
 
 
@@ -24,18 +25,16 @@ void astar(int maze[8][8], int *start, int *end, int len){
     //Node start_node = {'\0', *start, 0, 0, 0};
     //int len = sizeof(start) / sizeof(int);
 
-    /* スタートノードの作成・初期化 */
-    struct node* sn = (struct node*)malloc(sizeof(struct node));
-    struct point* sp = (struct point*)malloc(sizeof(struct point));
-    sp->x = start[0], sp->y = start[1];
-    sn->pnt = sp, sn->parentNode = Null, sn->g=sn->h=sn->g=0;
+    struct point* sP = (struct point*)malloc(sizeof(struct point));
+    sP->x = start[0],sP->y = start[1];
+    struct node* startNode = (struct node*)malloc(sizeof(struct node));
+    startNode->pnt = sP,startNode->parentNode = NULL,startNode->g=startNode->h=startNode->f=0;
 
-    /* エンドノードの作成・初期化 */
-    struct node* en = (struct node*)malloc(sizeof(struct node));
-    struct point* ep = (struct point*)malloc(sizeof(struct point));
-    ep->x = end[0], ep->y = end[1];
-    en->pnt = ep, eN->parentNode = Null, en->g=en->h=en->g=0;
-
+    //create GOAL_NODE=>gP and set the data...
+    struct point* gP = (struct point*)malloc(sizeof(struct point));
+    gP->x = end[0],gP->y = end[1];
+    struct node* goalNode = (struct node*)malloc(sizeof(struct node));
+    goalNode->pnt = gP,goalNode->parentNode = NULL,goalNode->g=goalNode->h=goalNode->f=0;
     
     
   /*
