@@ -24,8 +24,9 @@ struct node
 {
   struct point* pnt;
   struct node* parentNode;
-  float g;
-  float h;       
+  int g;
+  int h;       
+  int f;
 };
 struct point
 {
@@ -84,29 +85,115 @@ int main()
     sP->x = predator->x, sP->y = predator->y;
 
     struct node* startNode = (struct node*)malloc(sizeof(struct node));
-    startNode->pnt = sP,startNode->parentNode = NULL,startNode->g=0;startNode->h=0;
+    startNode->pnt = sP,startNode->parentNode = NULL,startNode->g=0;startNode->h=0, startNode->f=0;
 
     struct point* gP = (struct point*)malloc(sizeof(struct point));
     gP->x = prey->x,gP->y = prey->y;
 
     struct node* goalNode = (struct node*)malloc(sizeof(struct node));
-    goalNode->pnt = gP,goalNode->parentNode = NULL,goalNode->g=0,startNode->h=0;
+    goalNode->pnt = gP,goalNode->parentNode = NULL,goalNode->g=0,goalNode->h=0, goalNode->f=0;
 
     /* オープンリストの作成 */
     struct node **openList = (struct node**)malloc(sizeof(struct node*));
     *openList = NULL;
+    int openIndex = 0;
 
     /* クローズドリストの作成*/
     struct node **closedList = (struct node**)malloc(sizeof(struct node*));
     *closedList = NULL;
 
     /* どうやらクローズドリストのメモリ領域をリサイズしているみたい */
+    /*
     (*closedList) = (struct node*)realloc((*closedList),sizeof(struct node));
     memcpy(&((*closedList)[0]),startNode,sizeof(struct node));
+    */
+    
+
+    /* オープンリスト(経路候補)にstartNodeを追加して計算スタート*/
+    (*openList) = (struct node*)realloc((*openList),sizeof(struct node));
+    memcpy(&((*openList)[0]),startNode,sizeof(struct node));
+    openIndex++;
+
+    /* currentNodeを作成 */
+    struct node* currentNode = (struct node*)malloc(sizeof(struct node));
+    // (*openList) = (struct node*)realloc((*openList),sizeof(struct node));
+
+    /* itemを作成 */
+    struct node* item = (struct node*)malloc(sizeof(struct node));
+    
+    /* オープンリストの中身がなくなるまでループ */
+    while (openIndex > 0){
+        memcpy(&currentNode[0], &((*openList)[0]), sizeof(struct node));
+        int currentIndex = 0;
+
+        for(int i = 0; i < openIndex; i++){
+            /* オープンリストないでF値が最小のノードを選択 */
+            memcpy(&item[0], &((*openList)[0]), sizeof(struct node));
+            // printf("%d\n", item->f);
+            if (item->f < currentNode->f){
+                memcpy(currentNode, item, sizeof(struct node));
+                currentIndex = i;
+            }
+        }
+        /* 最小のF値のノードをオープンリストから削除して、クローズドリストに追加 */
+        free(openList[openIndex]);
+        openIndex--;
+        (*closedList) = (struct node*)realloc((*closedList),sizeof(struct node));
+        memcpy(&((*closedList)[0]),currentNode,sizeof(struct node));
+
+        /* ゴールに到達しているかどうか */
+        if (currentNode->pnt->x == goalNode->pnt->x && currentNode->pnt->y == goalNode->pnt->y){
+            struct point* path = (struct point*)malloc(sizeof(struct point));
+            
+            struct node* current = (struct node*)malloc(sizeof(struct node));
+            memcpy(current, currentNode, sizeof(struct node));
+
+            while (current = '¥0'){
+                
+
+            }
+
+        }
+
+        /* ゴールに到達してなければ子ノードを生成 */
+        struct node* children = (struct node*)malloc(sizeof(struct node));
+
+        /* 行動する(下、上、左、右) */
+        int action[][] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        /* ノードの位置 */
+        struct point* nodePosition = (struct point*)malloc(sizeof(struct point));
+        for(int i = 0; i < 4; i++){
+            /* 移動後の位置を得る */
+            // nodePosition = 
+
+            /* コースアウトしていないかのチェック */
+            
+            /* 障害物を避ける */
+
+            /* 移動できる位置のノードのみ生成 */
+
+            /* 子リストに追加 */
+        }
+
+        /* 各子ノードでG, H, Fを計算 */
+        for(){
+            /* よくわからない処理*/
+
+            /* G, H, Fの処理 */
+
+            /* 子ノードをオープンリストに追加*/
+
+        }
+
+        // openIndex--;
+    }
+    printf("%d %d\n", item->pnt->x, item->pnt->y);
+
+
     
     //create LAST_OBTAINED_NODE=>finished and set it to the result returned from the recursive A_STAR_ALGORITHM_FUNC
     struct node* finished = AStarAlgorithm(startNode,goalNode,openList,0,closedList,1);
-
+    printf("1\n");
     //call RECONSTRUCT_FUNC=>ReconstructThePath with finished as parameter...
     ReconstructThePath(finished);
 
