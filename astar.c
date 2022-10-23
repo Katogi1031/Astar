@@ -148,10 +148,13 @@ int main()
             struct node* current = (struct node*)malloc(sizeof(struct node));
             memcpy(current, currentNode, sizeof(struct node));
 
+            /*
             while (current = '¥0'){
                 
 
             }
+            */
+            
 
         }
 
@@ -159,7 +162,7 @@ int main()
         struct node* children = (struct node*)malloc(sizeof(struct node));
 
         /* 行動する(下、上、左、右) */
-        int action[][] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        int action[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
         /* ノードの位置 */
         struct point* nodePosition = (struct point*)malloc(sizeof(struct point));
         for(int i = 0; i < 4; i++){
@@ -176,14 +179,14 @@ int main()
         }
 
         /* 各子ノードでG, H, Fを計算 */
-        for(){
+        // for(){
             /* よくわからない処理*/
 
             /* G, H, Fの処理 */
 
             /* 子ノードをオープンリストに追加*/
-            /**/
-        }
+            
+        // }
 
         // openIndex--;
     }
@@ -193,7 +196,7 @@ int main()
     
     //create LAST_OBTAINED_NODE=>finished and set it to the result returned from the recursive A_STAR_ALGORITHM_FUNC
     struct node* finished = AStarAlgorithm(startNode,goalNode,openList,0,closedList,1);
-    printf("1\n");
+    printf("10\n");
     //call RECONSTRUCT_FUNC=>ReconstructThePath with finished as parameter...
     ReconstructThePath(finished);
 
