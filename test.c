@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<string.h>
 
+#define MAX 255
+
 struct node
 {
   struct point* pnt;
@@ -16,6 +18,8 @@ struct point
   int x;
   int y;     
 };
+
+
 
 
 
@@ -37,11 +41,15 @@ void astar(int maze[8][8], int *start, int *end){
 
     /* オープンリストの作成 */
     struct node **openList = (struct node**)malloc(sizeof(struct node*));
-    *openList = NULL
+    *openList = NULL;
     /* クローズリストの作成 */
     struct node **closedList = (struct node**)malloc(sizeof(struct node*));
-    *closedList = NULL
+    *closedList = NULL;
     printf("%d %d\n", goalNode->pnt->x, goalNode->pnt->y);
+
+    memcpy(&openList, &startNode, sizeof(struct node));
+
+    printf("%d %d¥n", openList[0]->pnt->x, openList[0]->pnt->y);
     
   /*
   while sizeof(open_list) / sizeof(int) > 0{
