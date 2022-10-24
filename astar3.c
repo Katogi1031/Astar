@@ -240,10 +240,11 @@ void ReconstructThePath(struct node* goalNode)
      }
      for(i=steps;i>=1;i--)
      {
-      field[ptr[i-1].x][ptr[i-1].y] = 20;
+        field[ptr[i-1].x][ptr[i-1].y] = 20;
         printf("(%d,%d)",ptr[i-1].x,ptr[i-1].y);
         if(i>1)  printf("=>");  
      }
+     printf("\n");
      for(int k = 0; k < 8; k++){
       for(int l = 0; l < 8; l++){
         printf("%3d ", field[k][l]);
