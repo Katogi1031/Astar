@@ -158,17 +158,17 @@ int ExpandNode(struct node* current,struct node **array,int l1,struct node **clo
    count = 0;
    //--FIRST-PHASE--:EXPAND ALL THE NEIGHBORING NODES...
    struct node* tempArray;
-   tempArray = (struct node*)calloc(8,sizeof(struct node));   
+   tempArray = (struct node*)calloc(4,sizeof(struct node));   
    for(i = 0;i<4;i++)
    {
       tempArray[i].pnt = (struct point*)malloc(sizeof(struct point));
     //   if(i == 0)  tempArray[i].pnt->x = current->pnt->x-1,tempArray[i].pnt->y = current->pnt->y+1,tempArray[i].g = current->g+1.4;
-      if(i == 0)   tempArray[i].pnt->x = current->pnt->x-1,tempArray[i].pnt->y = current->pnt->y,tempArray[i].g = current->g+1.0f;
+      if(i == 0 && maze[current->pnt->x-1][current->pnt->y] != -1)   tempArray[i].pnt->x = current->pnt->x-1,tempArray[i].pnt->y = current->pnt->y,tempArray[i].g = current->g+1.0f;
     //   else if(i == 2)   tempArray[i].pnt->x = current->pnt->x-1,tempArray[i].pnt->y = current->pnt->y-1,tempArray[i].g = current->g+1.4f;
-      else if(i == 1)   tempArray[i].pnt->x = current->pnt->x,tempArray[i].pnt->y = current->pnt->y+1,tempArray[i].g = current->g+1.0f;
-      else if(i == 2)   tempArray[i].pnt->x = current->pnt->x,tempArray[i].pnt->y = current->pnt->y-1,tempArray[i].g = current->g+1.0f;
+      else if(i == 1 && maze[current->pnt->x][current->pnt->y+1] != -1)   tempArray[i].pnt->x = current->pnt->x,tempArray[i].pnt->y = current->pnt->y+1,tempArray[i].g = current->g+1.0f;
+      else if(i == 2 && maze[current->pnt->x][current->pnt->y-1] != -1)   tempArray[i].pnt->x = current->pnt->x,tempArray[i].pnt->y = current->pnt->y-1,tempArray[i].g = current->g+1.0f;
     //   else if(i == 5)   tempArray[i].pnt->x = current->pnt->x+1,tempArray[i].pnt->y = current->pnt->y+1,tempArray[i].g = current->g+1.4f;
-      else if(i == 3)   tempArray[i].pnt->x = current->pnt->x+1,tempArray[i].pnt->y = current->pnt->y,tempArray[i].g = current->g+1.0f;
+      else if(i == 3 && maze[current->pnt->x+1][current->pnt->y] != -1)   tempArray[i].pnt->x = current->pnt->x+1,tempArray[i].pnt->y = current->pnt->y,tempArray[i].g = current->g+1.0f;
     //   else if(i == 7)   tempArray[i].pnt->x = current->pnt->x+1,tempArray[i].pnt->y = current->pnt->y-1,tempArray[i].g = current->g+1.4f;
       tempArray[i].parentNode = current;
    }
@@ -178,6 +178,9 @@ int ExpandNode(struct node* current,struct node **array,int l1,struct node **clo
    for(j = 0;j<4;j++)
    {
       found = 0;           
+      if(tempArray[j].parentNode == NULL){
+        return 0;
+      }
       for(i = 0;i<l1;i++) if((*array)[i].pnt->x == tempArray[j].pnt->x && (*array)[i].pnt->y == tempArray[j].pnt->y) found++;
       for(i = 0;i<l2;i++) if(tempArray[j].pnt->x == (*closed)[i].pnt->x && (*closed)[i].pnt->y == tempArray[j].pnt->y) found++; 
       //--THIRD-PHASE--:expand the array with the additional neighbors.
@@ -204,6 +207,7 @@ void CalculateTheTotalCost(struct node* goalNode,struct node **array,int l1)
 }
 int FindTheLeastCosted(struct node **array,int l1)
 {
+    
     int i,min,minIndex;
     min = (*array)[0].g + (*array)[0].h;
     minIndex = 0;
@@ -215,6 +219,15 @@ int FindTheLeastCosted(struct node **array,int l1)
 }
 void ReconstructThePath(struct node* goalNode)
 {
+    int field[8][8]= {{  1,  0,  0,  0,  0,  0,  0,  0},
+                         {  0,  0, -1, -1, -1, -1,  0,  0},
+                         {  0,  0,  0,  0,  0, -1,  0,  0},
+                         {  0,  0, -1, -1, -1, -1,  0,  0},
+                         {  0,  0, -1,  0,  0,  0,  0,  0},
+                         {  0,  0, -1,  0,  0,  0,  0,  0},
+                         {  0,  0, -1, -1, -1, -1,  0,  0},
+                         {  0,  0,  0,  0,  0, 10,  0,  0}
+                        };
      struct node* current = goalNode;
      struct point* ptr = NULL;
      int steps = 0,i;
@@ -227,7 +240,14 @@ void ReconstructThePath(struct node* goalNode)
      }
      for(i=steps;i>=1;i--)
      {
+      field[ptr[i-1].x][ptr[i-1].y] = 20;
         printf("(%d,%d)",ptr[i-1].x,ptr[i-1].y);
         if(i>1)  printf("=>");  
+     }
+     for(int k = 0; k < 8; k++){
+      for(int l = 0; l < 8; l++){
+        printf("%3d ", field[k][l]);
+      }
+      printf("\n");
      }
 }
