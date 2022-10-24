@@ -33,53 +33,8 @@ struct point
   int x;
   int y;     
 };
-//------------------------------------------------------------------------------
-//the function that operates during path finding process.
-struct node* AStarAlgorithm(struct node* current,struct node* goal,struct node **array,int l1,struct node **closed,
-int l2);
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//the function to find the neighboring nodes.to be called inside AStarAlgorithm
-//returns the number of elements inside the array...
-//parameters:CURRENT NODE,LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
-int ExpandNode(struct node* current,struct node **array,int l1,struct node **closed,int l2);
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//finds the least total costed node and returns a pointer for that node...
-//paramenters:LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
-int FindTheLeastCosted(struct node **array,int l1);
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//calcualtes the total cost of each node in the array...
-//parameters: GOAL NODE,LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
-void CalculateTheTotalCost(struct node* goalNode,struct node **array,int l1);
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//reconstructs the path from the beginning to the goal.prints out the path...
-void ReconstructThePath(struct node* goalNode);
-//------------------------------------------------------------------------------
-int main()
-{   
-    /* predatorとpreyの位置を格納する領域を確保*/
-    struct point* predator = (struct point*)malloc(sizeof(struct point));
-    struct point* prey = (struct point*)malloc(sizeof(struct point));
 
-    /* predatorとpreyの位置を特定*/
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            switch(maze[i][j]){
-                case 1:
-                    
-                    predator->x = i;
-                    predator->y = j;
-                case 10:
-                    
-                    prey->x = i;
-                    prey->y = j;
-            }
-        }
-    }
-    
+void astar(struct point* predator, struct point* prey){
     /* それぞれをスタート位置、ゴール位置とする */
     struct point* sP = (struct point*)malloc(sizeof(struct point));
     sP->x = predator->x, sP->y = predator->y;
@@ -148,12 +103,12 @@ int main()
             struct node* current = (struct node*)malloc(sizeof(struct node));
             memcpy(current, currentNode, sizeof(struct node));
 
-            /*
+            
             while (current = '¥0'){
                 
 
             }
-            */
+            
             
 
         }
@@ -191,16 +146,47 @@ int main()
         // openIndex--;
     }
     printf("%d %d\n", item->pnt->x, item->pnt->y);
+}
 
+int main()
+{   
+    /* predatorとpreyの位置を格納する領域を確保*/
+    struct point* predator = (struct point*)malloc(sizeof(struct point));
+    struct point* prey = (struct point*)malloc(sizeof(struct point));
+
+    /* predatorとpreyの位置を特定*/
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            switch(maze[i][j]){
+                case 1:
+                    
+                    predator->x = i;
+                    predator->y = j;
+                case 10:
+                    
+                    prey->x = i;
+                    prey->y = j;
+            }
+        }
+    }
+
+    astar(predator, prey);
 
     
+    
+
+    /**
     //create LAST_OBTAINED_NODE=>finished and set it to the result returned from the recursive A_STAR_ALGORITHM_FUNC
     struct node* finished = AStarAlgorithm(startNode,goalNode,openList,0,closedList,1);
-    printf("10\n");
+    
     //call RECONSTRUCT_FUNC=>ReconstructThePath with finished as parameter...
     ReconstructThePath(finished);
 
     //wait for user input...
+
+    */
+    
+    printf("10\n");
     getchar();
 
     /*
@@ -211,6 +197,35 @@ int main()
     
     return 0;   
 }
+
+
+/*
+//------------------------------------------------------------------------------
+//the function that operates during path finding process.
+struct node* AStarAlgorithm(struct node* current,struct node* goal,struct node **array,int l1,struct node **closed,
+int l2);
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//the function to find the neighboring nodes.to be called inside AStarAlgorithm
+//returns the number of elements inside the array...
+//parameters:CURRENT NODE,LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
+int ExpandNode(struct node* current,struct node **array,int l1,struct node **closed,int l2);
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//finds the least total costed node and returns a pointer for that node...
+//paramenters:LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
+int FindTheLeastCosted(struct node **array,int l1);
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//calcualtes the total cost of each node in the array...
+//parameters: GOAL NODE,LIST OF NODES TO BE INSPECTED,LENGTH OF THE LIST
+void CalculateTheTotalCost(struct node* goalNode,struct node **array,int l1);
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//reconstructs the path from the beginning to the goal.prints out the path...
+void ReconstructThePath(struct node* goalNode);
+//------------------------------------------------------------------------------
+
 struct node* AStarAlgorithm(struct node* current,struct node* goal,struct node **open,int l1,struct node **closed,int l2)
 {
   int i,j,nextIndex;
@@ -324,3 +339,5 @@ void ReconstructThePath(struct node* goalNode)
         if(i>1)  printf("=>");  
      }
 }
+
+*/
